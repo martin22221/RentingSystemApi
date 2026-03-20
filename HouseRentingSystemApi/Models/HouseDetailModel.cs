@@ -1,10 +1,16 @@
-﻿namespace HouseRentingSystemApi.Models
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
+
+using static HouseRentingSystemApi.
+
+namespace HouseRentingSystemApi.Models
 {
     public class HouseDetailModel
     {
-
-        public int Id { get; set; }
-        public string Name { get; set; }
+        [BindNever]
+    
+        [MaxLength(TitleMaxLength)]
+        public string Title { get; set; }
 
         public string Address { get; set; }
 

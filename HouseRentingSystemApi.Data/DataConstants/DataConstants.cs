@@ -14,6 +14,11 @@ namespace HouseRentingSystemApi.Data.DataConstants
             public const int AddressMaxLength = 150;
             public const int DescriptionMaxLength = 500;
         }
-       
+
+        public class Category
+        {
+            public const int NameMaxLength = 50;
+        }
+
     }
 }
