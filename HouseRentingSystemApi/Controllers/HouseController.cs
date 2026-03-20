@@ -42,7 +42,7 @@ namespace HouseRentingSystemApi.Controllers
             {
                 return BadRequest();
             }
-            context.Houses.Add(new House()
+            var house = new House()
             {
                 Title = model.Title,
                 Address = model.Address,
@@ -51,9 +51,11 @@ namespace HouseRentingSystemApi.Controllers
                 PricePerMonth = 100m,
                 CategoryId = 1
 
-            });
+            };
+            context.Houses.Add(house); 
             context.SaveChanges();
-            return Ok();
+
+            return Created($"api/All/{house.Id}",house);
         }
     }
 }
