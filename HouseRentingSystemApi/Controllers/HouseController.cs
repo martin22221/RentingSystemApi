@@ -1,11 +1,12 @@
 ﻿using HouseRentingSystemApi.Data;
 using HouseRentingSystemApi.Data.Entities;
 using HouseRentingSystemApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HouseRentingSystemApi.Controllers
 {
-    [Route("api/[controller")]
+    [Route("api/[controller]")]
     public class HouseController : ControllerBase
     {
         private AppDbContext context;
@@ -35,15 +36,17 @@ namespace HouseRentingSystemApi.Controllers
         {
             return Ok();
         }
-        [HttpPost("All")] 
-        public IActionResult All(HouseDetailModel model)
+        [HttpPost("All")]
+        [Produces(typeof(HouseDetailModel))]
+        [Authorize]
+        public IActionResult All([FromBody  ] HouseDetailModel model)
         {
             if(ModelState.IsValid)
             {
                 return BadRequest();
             }
             var house = new House()
-            {
+            {   
                 Title = model.Title,
                 Address = model.Address,
                 Description = "TestDescription",
@@ -52,7 +55,7 @@ namespace HouseRentingSystemApi.Controllers
                 CategoryId = 1
 
             };
-            context.Houses.Add(house); 
+            context.Houses.Add(house);      
             context.SaveChanges();
 
             return Created($"api/All/{house.Id}",house);
