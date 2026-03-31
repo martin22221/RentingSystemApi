@@ -1,8 +1,8 @@
 ﻿using HouseRentingSystemApi.Data;
 using HouseRentingSystemApi.Data.Entities;
 using HouseRentingSystemApi.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HouseRentingSystemApi.Controllers
 {
@@ -16,49 +16,68 @@ namespace HouseRentingSystemApi.Controllers
             this.context = context;
         }
 
-        [HttpGet("GetAll")]
-        public IActionResult GetAll()
+        [HttpGet("All")]
+        [Produces(typeof(IEnumerable<HouseDetailModel>))]
+        public async Task<IActionResult> GetAll()
         {
-            var model = context.Houses
+            var model = await context.Houses
+                .AsNoTracking()
                 .Select(h => new HouseDetailModel()
                 {
-               
+
                     Title = h.Title,
                     Address = h.Address,
-
+                    ImageUrl = h.ImageUrl
                 })
-                .ToList();
-          return Ok(model);
+                .ToListAsync();
+
+            return Ok(model);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id )
-        {
-            return Ok();
-        }
-        [HttpPost("All")]
         [Produces(typeof(HouseDetailModel))]
-        [Authorize]
-        public IActionResult All([FromBody  ] HouseDetailModel model)
+        public async Task<IActionResult> GetById(int id)
         {
-            if(ModelState.IsValid)
+            var house = await context.Houses.FirstOrDefaultAsync(h => h.Id == id);
+            if (house == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new HouseDetailModel()
+            {
+                Title = house.Title,
+                Address = house.Address,
+                ImageUrl = house.ImageUrl
+            });
+        }
+
+        [HttpPost]
+        [Produces(typeof(HouseDetailModel))]
+        public async Task<IActionResult> Create([FromBody] HouseDetailModel model)
+        {
+            if (ModelState.IsValid == false)
             {
                 return BadRequest();
             }
             var house = new House()
-            {   
+            {
                 Title = model.Title,
                 Address = model.Address,
-                Description = "TestDescription",
+                Description = "TesatDescription",
                 ImageUrl = model.ImageUrl,
                 PricePerMonth = 100m,
                 CategoryId = 1
-
             };
-            context.Houses.Add(house);      
-            context.SaveChanges();
+            context.Houses.Add(house);
+            await context.SaveChangesAsync();
 
-            return Created($"api/All/{house.Id}",house);
+            return Created($"api/{house.Id}", new HouseDetailModel() 
+            {
+                Address = house.Address,
+                ImageUrl = house.ImageUrl,
+                Title = house.Title
+            });
         }
     }
 }
