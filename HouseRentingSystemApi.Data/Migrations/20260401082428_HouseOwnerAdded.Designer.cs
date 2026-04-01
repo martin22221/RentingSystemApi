@@ -4,6 +4,7 @@ using HouseRentingSystemApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HouseRentingSystemApi.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260401082428_HouseOwnerAdded")]
+    partial class HouseOwnerAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,23 +106,6 @@ namespace HouseRentingSystemApi.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Apartment"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Room"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "House"
-                        });
                 });
 
             modelBuilder.Entity("HouseRentingSystemApi.Data.Entities.House", b =>
@@ -148,7 +134,6 @@ namespace HouseRentingSystemApi.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("PricePerMonth")
-                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Title")
@@ -166,108 +151,6 @@ namespace HouseRentingSystemApi.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Houses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 11,
-                            Address = "ul. Vitosha 15, Sofia",
-                            CategoryId = 1,
-                            Description = "Spacious modern apartment near city center with great view.",
-                            ImageUrl = "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688",
-                            PricePerMonth = 850m,
-                            Title = "Modern Apartment in Sofia Center"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            Address = "Studentski Grad 45, Sofia",
-                            CategoryId = 2,
-                            Description = "Perfect for students, fully furnished studio.",
-                            ImageUrl = "https://images.unsplash.com/photo-1493809842364-78817add7ffb",
-                            PricePerMonth = 450m,
-                            Title = "Cozy Studio in Studentski Grad"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Address = "Lozenets, Sofia",
-                            CategoryId = 1,
-                            Description = "High-end penthouse with terrace and parking.",
-                            ImageUrl = "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2",
-                            PricePerMonth = 2000m,
-                            Title = "Luxury Penthouse"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            Address = "Bistritsa Village",
-                            CategoryId = 3,
-                            Description = "Quiet place with yard and nature around.",
-                            ImageUrl = "https://images.unsplash.com/photo-1572120360610-d971b9d7767c",
-                            PricePerMonth = 300m,
-                            Title = "Small House in Village"
-                        },
-                        new
-                        {
-                            Id = 15,
-                            Address = "Dragalevtsi, Sofia",
-                            CategoryId = 3,
-                            Description = "Big house suitable for family with garden.",
-                            ImageUrl = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
-                            PricePerMonth = 1200m,
-                            Title = "Family House with Garden"
-                        },
-                        new
-                        {
-                            Id = 16,
-                            Address = "Mladost 2, Sofia",
-                            CategoryId = 1,
-                            Description = "Comfortable one-bedroom apartment.",
-                            ImageUrl = "https://images.unsplash.com/photo-1507089947368-19c1da9775ae",
-                            PricePerMonth = 600m,
-                            Title = "One Bedroom Apartment"
-                        },
-                        new
-                        {
-                            Id = 17,
-                            Address = "Nadezhda, Sofia",
-                            CategoryId = 2,
-                            Description = "Budget room, ideal for short stay.",
-                            ImageUrl = "https://images.unsplash.com/photo-1554995207-c18c203602cb",
-                            PricePerMonth = 200m,
-                            Title = "Cheap Room for Rent"
-                        },
-                        new
-                        {
-                            Id = 18,
-                            Address = "Varna Center",
-                            CategoryId = 1,
-                            Description = "Beautiful apartment with sea view.",
-                            ImageUrl = "https://images.unsplash.com/photo-1494526585095-c41746248156",
-                            PricePerMonth = 900m,
-                            Title = "Sea View Apartment"
-                        },
-                        new
-                        {
-                            Id = 19,
-                            Address = "Borovets",
-                            CategoryId = 3,
-                            Description = "Wooden cabin perfect for winter getaway.",
-                            ImageUrl = "https://images.unsplash.com/photo-1449844908441-8829872d2607",
-                            PricePerMonth = 700m,
-                            Title = "Mountain Cabin"
-                        },
-                        new
-                        {
-                            Id = 20,
-                            Address = "Plovdiv Center",
-                            CategoryId = 1,
-                            Description = "Clean and minimalist design, great location.",
-                            ImageUrl = "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5",
-                            PricePerMonth = 650m,
-                            Title = "Minimalist Apartment"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

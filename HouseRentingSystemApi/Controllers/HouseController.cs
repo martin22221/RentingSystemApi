@@ -4,6 +4,7 @@ using HouseRentingSystemApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace HouseRentingSystemApi.Controllers
 {
@@ -70,6 +71,8 @@ namespace HouseRentingSystemApi.Controllers
                 Title = model.Title,
                 ImageUrl = model.ImageUrl
             };
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);  
 
             var category = await context.Categories
                 .FirstOrDefaultAsync(c => c.Name ==  model.Category

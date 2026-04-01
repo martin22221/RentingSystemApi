@@ -29,7 +29,12 @@ namespace HouseRentingSystemApi.Data.Entities
 
         public Category Category { get; set; }
         [ForeignKey(nameof(Category))]
-        public int CategoryId { get; set; }
+        public int CategoryId { get; set; } 
+
+        public ApplicationUser Owner { get; set; }
+        [ForeignKey(nameof(Owner))]
+
+        public string? UserId { get; set; }
 
     }
 }
