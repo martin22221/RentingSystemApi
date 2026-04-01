@@ -52,13 +52,13 @@ namespace HouseRentingSystemApi.Controllers
                 return Unauthorized();
             }
 
-           var user = await _userManager.FindByEmailAsync(model.Email);
+            var user = await _userManager.FindByEmailAsync(model.Email);
 
-            if (user == null)
+            if (user != null)
             {
                 return BadRequest(new
-                {     
-                    message = "Username already exist",
+                {
+                    message = "Email already exists",
                 });
             }
             var newUser = new ApplicationUser()
@@ -93,7 +93,7 @@ namespace HouseRentingSystemApi.Controllers
             var credentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
 
             var expires = DateTime.UtcNow.AddMinutes(
-                int.Parse(jwtSection["ExpiresMinutes"]!)
+              int.Parse(jwtSection["ExpiresInMinutes"]!)
             );
 
             var token = new JwtSecurityToken(

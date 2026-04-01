@@ -18,6 +18,12 @@ namespace HouseRentingSystemApi.Data.DataConstants
         public class Category
         {
             public const int NameMaxLength = 50;
+            public readonly string[] ValidCategories = new string[]
+            {
+                "Single Bedroom",
+                "Double Bedroom",
+                "Single Family"
+            };
         }
 
     }

@@ -19,6 +19,13 @@ namespace HouseRentingSystemApi
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddCors(options => options.AddPolicy("FrontendPolicy", policy =>
+            {
+                policy
+                    .WithOrigins("http://localhost:3000")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
@@ -104,6 +111,8 @@ namespace HouseRentingSystemApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("FrontendPolicy");
 
             app.UseHttpsRedirection();
 
