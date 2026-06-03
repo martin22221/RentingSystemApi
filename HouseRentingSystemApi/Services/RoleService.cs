@@ -11,7 +11,7 @@ namespace HouseRentingSystemApi.Services
 
             foreach (var role in roles)
             {
-                if (!await roleManager.RoleExistsAsync(role))
+                if (await roleManager.RoleExistsAsync(role))
                 {
                     await roleManager.CreateAsync(new IdentityRole(role));
                 }
