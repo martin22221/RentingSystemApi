@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using HouseRentingSystemApi.Services;
+using HouseRentingSystemApi.Services.Contracts;
 
 namespace HouseRentingSystemApi
 {
@@ -100,25 +102,20 @@ namespace HouseRentingSystemApi
             });
 
             builder.Services.AddAuthorization();
+            builder.Services.AddScoped<IRoleService, RoleService>();
 
             var app = builder.Build();
 
             // ── Seed роли при стартиране ─────────────────────────────────────
-            using (var scope = app.Services.CreateScope())
-            {
-                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+          using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
 
-                string[] roles = { "Agent", "Client" };
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var roleService = services.GetRequiredService<IRoleService>();
 
-                foreach (var role in roles)
-                {
-                    if (!await roleManager.RoleExistsAsync(role))
-                    {
-                        await roleManager.CreateAsync(new IdentityRole(role));
-                        Console.WriteLine($"Ролята '{role}' беше създадена.");
-                    }
-                }
-            }
+    await roleService.SeedRolesAsync(roleManager);
+}
             // ─────────────────────────────────────────────────────────────────
 
             app.StopWatch();
